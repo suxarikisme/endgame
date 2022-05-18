@@ -24,9 +24,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          name: microservices-demo/queue-master
+          repository: microservices-demo/queue-master
           ref: refs/heads/master
 
       - name: Java Installation
