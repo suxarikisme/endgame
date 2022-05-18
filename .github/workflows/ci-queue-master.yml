@@ -58,9 +58,33 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./docker/queue-master/
           # Note: tags has to be all lower-case
-          tags: ttl.sh/otus-endgame-queue-master:24h 
+          tags: ttl.sh/queue-master-${{ github.sha }}:2h 
           push: true
+          
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          repository: suxarikisme/endgame
+          ref: refs/heads/master
 
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "3.6.1"
+          
+      - name: Update Kubernetes resources
+        run: |
+         cd workpath/app/
+         kustomize edit set image weaveworksdemos/queue-master=ttl.sh/queue-master-$GITHUB_SHA:2h
+         cat kustomization.yaml
+         
+      - name: Commit files
+        run: |
+         git config --local user.email "action@github.com"
+         git config --local user.name "GitHub Action"
+         git commit -am "Bump docker image and tag for queue-master"
 
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+         github_token: ${{ secrets.PUSH }}
