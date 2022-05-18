@@ -8,5 +8,5 @@ images:
   newName: ttl.sh/otus-endgame-queue-master
   newTag: latest
 - name: weaveworksdemos/queue-master
-  newName: ttl.sh/queue-master-
+  newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
   newTag: 2h
