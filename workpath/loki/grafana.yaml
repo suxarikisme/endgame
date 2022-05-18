@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: loki
+  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  tls:
+    - hosts:
+      - grafana.51.250.88.140.nip.io
+      secretName: letsencrypt
+  rules:
+    - host: grafana.51.250.88.140.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: loki-grafana
+                port:
+                  number: 80
