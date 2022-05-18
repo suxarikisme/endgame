@@ -60,7 +60,13 @@ jobs:
           # Note: tags has to be all lower-case
           tags: ttl.sh/queue-master-${{ github.sha }}:2h 
           push: true
-          
+
+  deploy:
+    name: Update
+    runs-on: ubuntu-latest
+    needs: build     
+
+    steps:   
       - name: Check out code
         uses: actions/checkout@v3
         with:
