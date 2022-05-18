@@ -19,6 +19,230 @@ fluent-bit:
 
 grafana:
   enabled: true
+  dashboards: {}
+   default:
+     loki-logs:
+       json: |  {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "target": {
+              "limit": 100,
+              "matchAny": false,
+              "tags": [],
+              "type": "dashboard"
+            },
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": 1,
+      "iteration": 1652872919508,
+      "links": [],
+      "liveNow": false,
+      "panels": [
+        {
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 6,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "count_over_time({namespace=~\"$namespace\"}[$__range])",
+              "refId": "A"
+            }
+          ],
+          "title": "Logs burst",
+          "type": "timeseries"
+        },
+        {
+          "description": "",
+          "gridPos": {
+            "h": 13,
+            "w": 24,
+            "x": 0,
+            "y": 7
+          },
+          "id": 4,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": true,
+            "prettifyLogMessage": false,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": false,
+            "sortOrder": "Descending",
+            "wrapLogMessage": false
+          },
+          "pluginVersion": "8.3.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "{app=\"$app\"}",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "{namespace=~\"$namespace\"}",
+              "hide": false,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "P8E80F9AEF21F6940"
+              },
+              "expr": "{stream=~\"$type\"}",
+              "hide": false,
+              "refId": "C"
+            }
+          ],
+          "title": "Logs",
+          "type": "logs"
+        }
+      ],
+      "schemaVersion": 34,
+      "style": "dark",
+      "tags": [],
+      "templating": {
+        "list": [
+          {
+            "current": {
+              "selected": true,
+              "text": "sock-shop",
+              "value": "sock-shop"
+            },
+            "hide": 0,
+            "label": "namespace",
+            "name": "namespace",
+            "options": [
+              {
+                "selected": true,
+                "text": "sock-shop",
+                "value": "sock-shop"
+              }
+            ],
+            "query": "sock-shop",
+            "skipUrlSync": false,
+            "type": "textbox"
+          },
+          {
+            "current": {
+              "selected": true,
+              "text": "",
+              "value": ""
+            },
+            "hide": 0,
+            "label": "type",
+            "name": "type",
+            "options": [
+              {
+                "selected": true,
+                "text": "stderr",
+                "value": "stderr"
+              }
+            ],
+            "query": "stderr",
+            "skipUrlSync": false,
+            "type": "textbox"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-6h",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "Loki Logs",
+      "uid": "upFWGhu7k",
+      "version": 7,
+      "weekStart": ""
+    }
+
   persistence:
     accessModes:
     - ReadWriteOnce
@@ -33,15 +257,6 @@ grafana:
       - name: Prometheus
         type: prometheus
         url: http://vmcluster-victoria-metrics-cluster-vmselect.default.svc.cluster.local:8481/select/0/prometheus/
-
-  dashboards:
-    enabled: true
-    label: grafana_dashboard
-    folder: /tmp/dashboards
-    provider: 
-      foldersFromFilesStructure: true
-    annotations: 
-      k8s-sidecar-target-directory: "/tmp/dashboards"
   sidecar:
     datasources:
       enabled: true
