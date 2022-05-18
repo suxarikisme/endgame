@@ -47,8 +47,9 @@ jobs:
  
       - name: Build jar
         run: |
-          cd ./
+          cd ..
           echo $(pwd)
+          tree
           docker run --rm -v $HOME/.m2:/root/.m2 -v ./:/usr/src/mymaven -w /usr/src/mymaven maven:3.2-jdk-8 mvn -DskipTests package
 
           cp ./target/*.jar $CODE_DIR/docker/queue-master
