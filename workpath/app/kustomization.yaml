@@ -5,7 +5,10 @@ resources:
 namespace: sock-shop
 images:
 - name: weaveworksdemos/carts
-  newName: x
+  newName: ttl.sh/carts-cfe678b8e4f7e6ba7db5a440f9e369f56b959ef2
+  newTag: 2h
+- name: weaveworksdemos/queue-master
+  newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
   newTag: 2h
 - name: xweaveworksdemos/catalogue
   newName: x
@@ -28,6 +31,3 @@ images:
 - name: xweaveworksdemos/user
   newName: x
   newTag: latest
-- name: weaveworksdemos/queue-master
-  newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
-  newTag: 2h
