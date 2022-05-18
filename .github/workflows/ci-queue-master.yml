@@ -47,12 +47,11 @@ jobs:
  
       - name: Build jar
         run: |
-          SCRIPT_DIR=$(dirname "$0")
-          CODE_DIR=$(cd $SCRIPT_DIR/..; pwd)
-          echo $CODE_DIR
-          docker run --rm -v $HOME/.m2:/root/.m2 -v $CODE_DIR:/usr/src/mymaven -w /usr/src/mymaven maven:3.2-jdk-8 mvn -DskipTests package
+          cd ./
+          echo $(pwd)
+          docker run --rm -v $HOME/.m2:/root/.m2 -v ./:/usr/src/mymaven -w /usr/src/mymaven maven:3.2-jdk-8 mvn -DskipTests package
 
-          cp $CODE_DIR/target/*.jar $CODE_DIR/docker/queue-master
+          cp ./target/*.jar $CODE_DIR/docker/queue-master
                 
       - name: Build image and push to ttl.sh
         uses: docker/build-push-action@v3
