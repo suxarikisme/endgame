@@ -1,6 +1,13 @@
 loki:
   enabled: true
   isDefault: true
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    annotations: {}
+    enabled: true
+    size: 1Gi
+    storageClassName: "yc-network-hdd"
 
 promtail:
   enabled: true
