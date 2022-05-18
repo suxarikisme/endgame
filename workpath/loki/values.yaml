@@ -33,6 +33,15 @@ grafana:
       - name: Prometheus
         type: prometheus
         url: http://vmcluster-victoria-metrics-cluster-vmselect.default.svc.cluster.local:8481/select/0/prometheus/
+
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    folder: /tmp/dashboards
+    provider: 
+      foldersFromFilesStructure: true
+    annotations: 
+      k8s-sidecar-target-directory: "/tmp/dashboards"
   sidecar:
     datasources:
       enabled: true
