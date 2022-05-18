@@ -19,6 +19,13 @@ fluent-bit:
 
 grafana:
   enabled: true
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    annotations: {}
+    enabled: true
+    size: 1Gi
+    storageClassName: "yc-network-hdd"
   datasources:
     datasources.yaml:
       apiVersion: 1
