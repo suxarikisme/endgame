@@ -18,7 +18,14 @@ fluent-bit:
   enabled: false
 
 grafana:
-  enabled: false
+  enabled: true
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://vmcluster-victoria-metrics-cluster-vmselect.default.svc.cluster.local:8481/select/0/prometheus/
   sidecar:
     datasources:
       enabled: true
