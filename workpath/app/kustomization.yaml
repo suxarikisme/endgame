@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- complete-demo.yaml
+namespace: sock-shop
+images:
+- name: blabla
+  newName: ttl.sh/otus-endgame-queue-master
+  newTag: latest
+- name: weaveworksdemos/queue-master
+  newName: ttl.sh/queue-master-
+  newTag: 2h
