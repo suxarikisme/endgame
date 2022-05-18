@@ -4,8 +4,29 @@ resources:
 - complete-demo.yaml
 namespace: sock-shop
 images:
-- name: blabla
-  newName: ttl.sh/otus-endgame-queue-master
+- name: weaveworksdemos/carts
+  newName: x
+  newTag: 2h
+- name: xweaveworksdemos/catalogue
+  newName: x
+  newTag: 2h
+- name: xweaveworksdemos/catalogue-db
+  newName: x
+  newTag: latest
+- name: xweaveworksdemos/front-end
+  newName: x
+  newTag: latest
+- name: xweaveworksdemos/orders
+  newName: x
+  newTag: latest
+- name: xweaveworksdemos/payment
+  newName: x
+  newTag: latest
+- name: xweaveworksdemos/shipping
+  newName: x
+  newTag: latest
+- name: xweaveworksdemos/user
+  newName: x
   newTag: latest
 - name: weaveworksdemos/queue-master
   newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
