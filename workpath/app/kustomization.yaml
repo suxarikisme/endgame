@@ -7,6 +7,9 @@ images:
 - name: weaveworksdemos/carts
   newName: weaveworksdemos/carts
   newTag: 0.4.8
+- name: weaveworksdemos/front-end
+  newName: ttl.sh/front-end-7f79d79d681476dd433565ea777d0853d7b2ed77
+  newTag: 2h
 - name: weaveworksdemos/queue-master
   newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
   newTag: 2h
