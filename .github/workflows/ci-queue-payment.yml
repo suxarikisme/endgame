@@ -49,7 +49,7 @@ jobs:
           go get -u github.com/FiloSottile/gvt
           gvt restore
                     
-          sed '/^FROM golang.*/a RUN apk add ca-certificates && update-ca-certificates' /home/runner/work/endgame/endgame/docker/payment/Dockerfile
+          sed '/^FROM golang.*/a RUN apk add ca-certificates && update-ca-certificates' /home/runner/work/endgame/endgame/docker/payment/Dockerfile > /home/runner/work/endgame/endgame/docker/payment/Dockerfile.changed
           cat /home/runner/work/endgame/endgame/docker/payment/Dockerfile
 
        # setup Docker buld action
@@ -68,7 +68,7 @@ jobs:
           cp $CODE_DIR/*.go $CODE_DIR/docker/payment/
           mkdir $CODE_DIR/docker/payment/vendor && cp $CODE_DIR/vendor/manifest $CODE_DIR/docker/payment/vendor/
           
-          docker build -t ttl.sh/payment-dev -f $CODE_DIR/docker/payment/Dockerfile $CODE_DIR/docker/payment;
+          docker build -t ttl.sh/payment-dev -f $CODE_DIR/docker/payment/Dockerfile.cnaged $CODE_DIR/docker/payment;
           docker create --name payment ttl.sh/payment-dev
           docker cp payment:/app $CODE_DIR/docker/payment/app
           docker rm payment
