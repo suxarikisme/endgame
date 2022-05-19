@@ -43,12 +43,9 @@ jobs:
           echo $(pwd)
           IMAGE=orders
           CODE_DIR=/home/runner/work/endgame/endgame
-          docker run --rm -v $HOME/.m2:/root/.m2 -v $CODE_DIR:/usr/src/mymaven -w /usr/src/mymaven maven:3.2-jdk-8 mvn -DskipTests package
-          cp -r $CODE_DIR/docker $CODE_DIR/target/docker/
-          cp -r $CODE_DIR/target/*.jar $CODE_DIR/target/docker/${IMAGE}
+          docker run --rm -v $HOME/.m2:/root/.m2 -v $CODE_DIR:/usr/src/mymaven -w /usr/src/mymaven maven:3.2-jdk-8 mvn -DskipTests package -DoutputDirectory=/usr/src/mymaven/docker/orders
 
-
-          docker build -t ttl.sh/orders-${{ github.sha }}:2h -f $BUILD_DIR/docker/orders/Dockerfile $CODE_DIR/target/docker/${IMAGE}
+          docker build -t ttl.sh/orders-${{ github.sha }}:2h -f $BUILD_DIR/docker/orders/Dockerfile $CODE_DIR/docker/orders
           docker push ttl.sh/orders-${{ github.sha }}:2h
 
 
