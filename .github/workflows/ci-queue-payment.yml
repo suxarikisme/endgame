@@ -49,7 +49,7 @@ jobs:
           go get -u github.com/FiloSottile/gvt
           gvt restore
                     
-          sed '/^FROM golang.*/a RUN apk add ca-certificates && update-ca-certificates' /home/runner/work/endgame/endgame/docker/payment/Dockerfile > /home/runner/work/endgame/endgame/docker/payment/Dockerfile.changed
+          sed '/^FROM golang.*/a RUN apt-get install ca-certificates && update-ca-certificates' /home/runner/work/endgame/endgame/docker/payment/Dockerfile > /home/runner/work/endgame/endgame/docker/payment/Dockerfile.changed
           cat /home/runner/work/endgame/endgame/docker/payment/Dockerfile
 
        # setup Docker buld action
