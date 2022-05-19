@@ -1,0 +1,115 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI-catalogue
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches:
+      - master
+    paths:
+      - sockshop/catalogue/**
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      GROUP: sockshop
+      COMMIT: ${{ github.sha }}
+      REPO: catalogue
+      GO_VERSION: 1.7.5
+      GOPATH: /home/runner/work/endgame/endgame/go
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: microservices-demo/catalogue
+          ref: refs/heads/master
+
+      - name: GO Installation
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ env.GO_VERSION }} # The GO version to make available on the path.
+
+      - name: Setup PATH
+        run: echo "${GOPATH}/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: go get -u github.com/FiloSottile/gvt && gvt restore && go get -v github.com/mattn/goveralls
+
+       # setup Docker buld action
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+ 
+      - name: Build go
+        run: |
+          export BUILD_VERSION="0.0.2-SNAPSHOT"
+          export BUILD_DATE=`date +%Y-%m-%dT%T%z`
+          echo $(pwd)
+          CODE_DIR=/home/runner/work/endgame/endgame
+          mkdir -p $CODE_DIR/build
+          BUILD_DIR=$CODE_DIR/build
+          cp -r $CODE_DIR/docker $BUILD_DIR/
+          cp -r $CODE_DIR/images/ $BUILD_DIR/docker/catalogue/images/
+          cp -r $CODE_DIR/cmd/ $BUILD_DIR/docker/catalogue/cmd/
+          cp $CODE_DIR/*.go $BUILD_DIR/docker/catalogue/
+          mkdir -p $BUILD_DIR/docker/catalogue/vendor/ && \
+          cp $CODE_DIR/vendor/manifest $BUILD_DIR/docker/catalogue/vendor/
+
+          docker build -t ttl.sh/catalogue-${{ github.sha }}:2h -f $BUILD_DIR/docker/catalogue/Dockerfile $BUILD_DIR/docker/catalogue
+          docker build -t ttl.sh/catalogue-db-${{ github.sha }}:2h -f $BUILD_DIR/docker/catalogue-db/Dockerfile $BUILD_DIR/docker/catalogue-db
+          docker push ttl.sh/catalogue-${{ github.sha }}:2h
+          docker push ttl.sh/catalogue-db-${{ github.sha }}:2h
+
+          rm -rf $BUILD_DIR
+                         
+
+  deploy:
+    name: Update
+    runs-on: ubuntu-latest
+    needs: build     
+
+    steps:   
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          repository: suxarikisme/endgame
+          ref: refs/heads/master
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+        with:
+          kustomize-version: "3.6.1"
+          
+      - name: Update Kubernetes res-catalogue
+        run: |
+         cd workpath/app/
+         kustomize edit set image weaveworksdemos/catalogue=ttl.sh/catalogue-$GITHUB_SHA:2h
+         cat kustomization.yaml
+
+      - name: Update Kubernetes res-catalogue-db
+        run: |
+         cd workpath/app/
+         kustomize edit set image weaveworksdemos/catalogue-db=ttl.sh/catalogue-db-$GITHUB_SHA:2h
+         cat kustomization.yaml
+         
+      - name: Commit files
+        run: |
+         git config --local user.email "action@github.com"
+         git config --local user.name "GitHub Action"
+         git commit -am "Bump docker image and tag for catalogue"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+         github_token: ${{ secrets.PUSH }}
