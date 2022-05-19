@@ -52,7 +52,10 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B -DskipTests package --file pom.xml -DoutputDirectory=/home/runner/work/endgame/endgame/docker/orders/
-                
+      
+      - name: Test
+        run: tree /home/runner/work/endgame/endgame/docker
+      
       - name: Build image and push to ttl.sh
         uses: docker/build-push-action@v3
         with:
