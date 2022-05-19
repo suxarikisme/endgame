@@ -51,10 +51,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: mvn -B -DskipTests package --file pom.xml
-        
-      - name: Copy jar
-        run: cp app.jar ./docker/orders/
+        run: mvn -B -DskipTests package --file pom.xml -DoutputDirectory=/home/runner/work/endgame/endgame/docker/orders/
                 
       - name: Build image and push to ttl.sh
         uses: docker/build-push-action@v3
