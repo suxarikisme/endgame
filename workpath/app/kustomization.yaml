@@ -16,6 +16,9 @@ images:
 - name: weaveworksdemos/queue-master
   newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
   newTag: 2h
+- name: weaveworksdemos/shipping
+  newName: ttl.sh/shipping-c12c12ada6d5a3bb1a5ba6b5b5823f3d67775b44
+  newTag: 2h
 - name: xweaveworksdemos/catalogue
   newName: x
   newTag: 2h
