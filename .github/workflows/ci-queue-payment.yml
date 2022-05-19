@@ -68,7 +68,7 @@ jobs:
           cp $CODE_DIR/*.go $CODE_DIR/docker/payment/
           mkdir $CODE_DIR/docker/payment/vendor && cp $CODE_DIR/vendor/manifest $CODE_DIR/docker/payment/vendor/
           
-          docker build -t ttl.sh/payment-dev -f $CODE_DIR/docker/payment/Dockerfile.cnaged $CODE_DIR/docker/payment;
+          docker build -t ttl.sh/payment-dev -f $CODE_DIR/docker/payment/Dockerfile.changed $CODE_DIR/docker/payment;
           docker create --name payment ttl.sh/payment-dev
           docker cp payment:/app $CODE_DIR/docker/payment/app
           docker rm payment
