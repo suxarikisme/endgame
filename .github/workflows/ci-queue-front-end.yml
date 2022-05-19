@@ -33,16 +33,11 @@ jobs:
           repository: microservices-demo/front-end
           ref: refs/heads/master
 
-      - name: Java Installation
+      - name: Node Installation
         uses: actions/setup-node@v1
         with:
           node-version: '4.x' # The JDK version to make available on the path.
 
-       # setup Docker buld action
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
- 
       - name: Install dependencies
         run: |
           npm install
@@ -51,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: ./
+          context: /home/runner/work/endgame/endgame
           # Note: tags has to be all lower-case
           tags: ttl.sh/front-end-${{ github.sha }}:2h 
           push: true
