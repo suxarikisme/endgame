@@ -830,6 +830,20 @@ spec:
     name: user
 
 ---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sock-user-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: yc-network-hdd
+  resources:
+    requests:
+      storage: 300M
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -866,10 +880,15 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: tmp-volume
+        - name: ps-user-db
+          mountPath: /data
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+        - name: ps-user-db
+          persistentVolumeClaim:
+            claimName: pvc-sock-user-db
       nodeSelector:
         beta.kubernetes.io/os: linux
 ---
