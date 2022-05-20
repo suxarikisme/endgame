@@ -841,7 +841,7 @@ spec:
   storageClassName: yc-network-hdd
   resources:
     requests:
-      storage: 300M
+      storage: 300Mi
 
 ---
 apiVersion: apps/v1
