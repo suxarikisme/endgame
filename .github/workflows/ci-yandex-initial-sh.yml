@@ -38,6 +38,10 @@ jobs:
        uses: azure/setup-kubectl@v2.0
        id: install
 
+     - name: Install helm
+       uses: azure/setup-helm@v1
+       id: install
+
      - name: Run YC create
        env:
         YC_FILE: ${{ secrets.YC_KEY }}
@@ -65,4 +69,20 @@ jobs:
 
         /opt/yc/bin/yc managed-kubernetes cluster get-credentials --external --name default
         kubectl get all -n kube-system
-     
+        
+        rm -rf yckey.json
+
+      # было интересно потестить marketplace yandex поэтому такая хитрая проверка
+     - name: Install ARGO
+       run: |
+        helm repo add argo https://argoproj.github.io/argo-helm
+        kubectl get namespace | grep -q "^argo " || helm install argocd argo/argo-cd -n argo --create-namespace --atomic
+
+     - name: Install Nginx-Ingress
+       run: |
+        helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+        kubectl get namespace | grep -q "^ingress-nginx " || helm install ingress-nginx ingress-nginx/ingress-nginx
+
+     - name: Install Cert-Manager
+       run: |
+        kubectl get namespace | grep -q "^cert-manager " || kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
