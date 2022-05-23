@@ -81,7 +81,7 @@ jobs:
      - name: Install Nginx-Ingress
        run: |
         helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-        kubectl get namespace | grep -q "^ingress-nginx " || helm install ingress-nginx ingress-nginx/ingress-nginx
+        kubectl get service | grep -q "^ingress-nginx-controller " || helm install ingress-nginx ingress-nginx/ingress-nginx
 
      - name: Install Cert-Manager
        run: |
