@@ -39,8 +39,10 @@ jobs:
        id: install
 
      - name: Run YC create
+       env:
+        YC_FILE: ${{ secrets.YC_KEY }}
        run: |
-        echo ${{ secrets.YC_KEY }} > yckey.json
+        echo "$YC_FILE" >> yckey.json
         /opt/yc/bin/yc config profile create default
         /opt/yc/bin/yc config set service-account-key yckey.json
 
