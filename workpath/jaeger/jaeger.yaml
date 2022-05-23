@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - jaeger.51.250.88.140.nip.io
+      - jaeger.51.250.86.77.nip.io
       secretName: letsencrypt
   rules:
-    - host: jaeger.51.250.88.140.nip.io
+    - host: jaeger.51.250.86.77.nip.io
       http:
         paths:
           - path: /

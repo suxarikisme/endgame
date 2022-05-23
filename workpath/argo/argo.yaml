@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - argo.51.250.88.140.nip.io
+      - argo.51.250.86.77.nip.io
       secretName: letsencrypt
   rules:
-    - host: argo.51.250.88.140.nip.io
+    - host: argo.51.250.86.77.nip.io
       http:
         paths:
           - path: /
