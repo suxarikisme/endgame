@@ -41,25 +41,25 @@ jobs:
      - name: Run YC create
        run: |
         echo ${{ secrets.YC_KEY }} > yckey.json
-        /opt/yс/bin/yc config profile create default
-        /opt/yс/bin/yc config set service-account-key yckey.json
+        /opt/yc/bin/yc config profile create default
+        /opt/yc/bin/yc config set service-account-key yckey.json
 
-        export CLUSTER_NAME=$(/opt/yс/bin/yc managed-kubernetes cluster list --format json | grep name | awk '{ print $2 }' | tr -dc '[0-9A-Za-z-]')
+        export CLUSTER_NAME=$(/opt/yc/bin/yc managed-kubernetes cluster list --format json | grep name | awk '{ print $2 }' | tr -dc '[0-9A-Za-z-]')
 
         if [ -z "$CLUSTER_NAME"  ]; then
-        /opt/yс/bin/yc managed-kubernetes cluster create  --name default --network-name default \
+        /opt/yc/bin/yc managed-kubernetes cluster create  --name default --network-name default \
             --zone ru-central1-a --subnet-name default \
             --public-ip --release-channel regular --version 1.21 --cluster-ipv4-range 10.112.0.0/16 \
             --service-ipv4-range 10.96.0.0/16 --service-account-name default-sa \
             --node-service-account-name default-sa \
             --daily-maintenance-window start=23:00,duration=10h &> /dev/null && \
-        /opt/yс/bin/yc managed-kubernetes node-group create --name default \
+        /opt/yc/bin/yc managed-kubernetes node-group create --name default \
             --cluster-name default --platform-id standard-v2 --version 1.21 \
             --cores 2 --core-fraction 100 --memory 8 --fixed-size 2 --disk-type network-hdd \
             --location zone=ru-central1-a \
             --network-interface=subnets=default,ipv4-address=nat &> /dev/null
         fi
 
-        /opt/yс/bin/yc managed-kubernetes cluster get-credentials --external --name default
+        /opt/yc/bin/yc managed-kubernetes cluster get-credentials --external --name default
         kubectl get all -n kube-system
      
