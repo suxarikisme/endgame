@@ -32,7 +32,7 @@ jobs:
 
      - name: Install YC
        run: |
-        curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash 
+        curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yс -n 
 
      - name: Install kubectl
        uses: azure/setup-kubectl@v2.0
@@ -40,28 +40,27 @@ jobs:
 
      - name: Run YC create
        run: |
-        source "/home/runner/.bashrc"
-        yc config set cloud-id ${{ secrets.YC_CLOUD_ID }}            
-        yc config set folder-id ${{ secrets.YC_FOLDER_ID }}
-        yc config set compute-default-zone  ${{ secrets.YC_TOKEN }}
-        yc config set token ${{ secrets.YC_ZONE }}
+        /opt/yс/yc config set cloud-id ${{ secrets.YC_CLOUD_ID }}            
+        /opt/yс/yc config set folder-id ${{ secrets.YC_FOLDER_ID }}
+        /opt/yс/yc config set compute-default-zone  ${{ secrets.YC_TOKEN }}
+        /opt/yс/yc config set token ${{ secrets.YC_ZONE }}
 
-        export CLUSTER_NAME=$(yc managed-kubernetes cluster list --format json | grep name | awk '{ print $2 }' | tr -dc '[0-9A-Za-z-]')
+        export CLUSTER_NAME=$(/opt/yс/yc managed-kubernetes cluster list --format json | grep name | awk '{ print $2 }' | tr -dc '[0-9A-Za-z-]')
 
         if [ -z "$CLUSTER_NAME"  ]; then
-        yc managed-kubernetes cluster create  --name default --network-name default \
+        /opt/yс/yc managed-kubernetes cluster create  --name default --network-name default \
             --zone ru-central1-a --subnet-name default \
             --public-ip --release-channel regular --version 1.21 --cluster-ipv4-range 10.112.0.0/16 \
             --service-ipv4-range 10.96.0.0/16 --service-account-name default-sa \
             --node-service-account-name default-sa \
             --daily-maintenance-window start=23:00,duration=10h &> /dev/null && \
-        yc managed-kubernetes node-group create --name default \
+        /opt/yс/yc managed-kubernetes node-group create --name default \
             --cluster-name default --platform-id standard-v2 --version 1.21 \
             --cores 2 --core-fraction 100 --memory 8 --fixed-size 2 --disk-type network-hdd \
             --location zone=ru-central1-a \
             --network-interface=subnets=default,ipv4-address=nat &> /dev/null
         fi
 
-        yc managed-kubernetes cluster get-credentials --external --name default
+        /opt/yс/yc managed-kubernetes cluster get-credentials --external --name default
         kubectl get all -n kube-system
      
