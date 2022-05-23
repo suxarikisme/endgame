@@ -42,6 +42,10 @@ jobs:
         cd /home/runner/work/endgame/endgame/initial && terraform init
 
      - name: Run Terraform apply
+       env: # Or as an environment variable
+        YC_CLOUD_ID: ${{ secrets.YC_CLOUD_ID }}
+        YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+        YC_TOKEN: ${{ secrets.YC_TOKEN }}
+        YC_ZONE: ${{ secrets.YC_ZONE }}
        run: |
-        cd /home/runner/work/endgame/endgame/initial && terraform apply
-       
+        cd /home/runner/work/endgame/endgame/initial && terraform apply      
