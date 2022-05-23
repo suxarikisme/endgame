@@ -32,7 +32,7 @@ jobs:
 
      - name: Install YC
        run: |
-        curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yс -n 
+        curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yc -n 
 
      - name: Install kubectl
        uses: azure/setup-kubectl@v2.0
