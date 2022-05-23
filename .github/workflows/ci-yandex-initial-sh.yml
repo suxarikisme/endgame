@@ -36,11 +36,11 @@ jobs:
 
      - name: Install kubectl
        uses: azure/setup-kubectl@v2.0
-       id: install
+       id: installkctl
 
      - name: Install helm
        uses: azure/setup-helm@v1
-       id: install
+       id: installhelm
 
      - name: Run YC create
        env:
