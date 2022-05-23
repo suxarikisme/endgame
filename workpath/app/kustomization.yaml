@@ -17,7 +17,7 @@ images:
   newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
   newTag: 2h
 - name: weaveworksdemos/shipping
-  newName: ttl.sh/shipping-c12c12ada6d5a3bb1a5ba6b5b5823f3d67775b44
+  newName: ttl.sh/shipping-7895eb928ce1586f24c7a068db876a0299f2fcad
   newTag: 2h
 - name: xweaveworksdemos/catalogue
   newName: x
