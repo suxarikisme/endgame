@@ -62,7 +62,7 @@ grafana:
         revision: 1
         datasource: Prometheus
       loki-logs:
-        url: https://raw.githubusercontent.com/suxarikisme/endgame/master/workpath/grafana/loki_logs.json
+        url: https://raw.githubusercontent.com/suxarikisme/endgame/master/workpath/grafana/logs_dash.json
 
   sidecar:
     datasources:
