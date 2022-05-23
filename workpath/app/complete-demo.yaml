@@ -439,15 +439,15 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: tmp-volume
-        - name: ps-sock-orders-db
-          mountPath: /data
+#        - name: ps-sock-orders-db
+#          mountPath: /data
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
-        - name: ps-sock-orders-db
-          persistentVolumeClaim:
-            claimName: pvc-sock-orders-db
+#        - name: ps-sock-orders-db
+#          persistentVolumeClaim:
+#            claimName: pvc-sock-orders-db
       nodeSelector:
         beta.kubernetes.io/os: linux
 ---
@@ -908,15 +908,15 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: tmp-volume
-        - name: ps-user-db
-          mountPath: /data
+#        - name: ps-user-db
+#          mountPath: /data
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
-        - name: ps-user-db
-          persistentVolumeClaim:
-            claimName: pvc-sock-user-db
+#        - name: ps-user-db
+#          persistentVolumeClaim:
+#            claimName: pvc-sock-user-db
       nodeSelector:
         beta.kubernetes.io/os: linux
 ---

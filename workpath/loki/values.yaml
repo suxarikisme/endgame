@@ -33,6 +33,21 @@ grafana:
       - name: Prometheus
         type: prometheus
         url: http://vmcluster-victoria-metrics-cluster-vmselect.default.svc.cluster.local:8481/select/0/prometheus/
+  dashboards:
+    default:
+      victoriametrics:
+        gnetId: 11176
+        revision: 18
+        datasource: Prometheus
+      vmagent:
+        gnetId: 12683
+        revision: 7
+        datasource: Prometheus
+      kubernetes:
+        gnetId: 14205
+        revision: 1
+        datasource: Prometheus
+
   sidecar:
     datasources:
       enabled: true
