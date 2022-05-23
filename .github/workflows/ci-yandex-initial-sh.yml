@@ -40,8 +40,9 @@ jobs:
 
      - name: Run YC create
        run: |
-        /opt/yс/bin/yc init --token ${{ secrets.YC_ZONE }} --cloud-id ${{ secrets.YC_CLOUD_ID }} --folder-id ${{ secrets.YC_FOLDER_ID }}
-        /opt/yс/bin/yc config set compute-default-zone  ${{ secrets.YC_TOKEN }}
+        echo ${{ secrets.YC_KEY }} > yckey.json
+        /opt/yс/bin/yc config profile create default
+        /opt/yс/bin/yc config set service-account-key yckey.json
 
         export CLUSTER_NAME=$(/opt/yс/bin/yc managed-kubernetes cluster list --format json | grep name | awk '{ print $2 }' | tr -dc '[0-9A-Za-z-]')
 
