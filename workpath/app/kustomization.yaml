@@ -11,7 +11,7 @@ images:
   newName: ttl.sh/front-end-7f79d79d681476dd433565ea777d0853d7b2ed77
   newTag: 2h
 - name: weaveworksdemos/orders
-  newName: ttl.sh/orders-f4f6f238410fcc03defebe87eca9ea381b9d50c8
+  newName: ttl.sh/orders-2eeb1af0e9316fa10004f48dc91acd61cd57123a
   newTag: 2h
 - name: weaveworksdemos/queue-master
   newName: ttl.sh/queue-master-53d46feea3c4bdf2cfe0e9de7188b07dfe7684ca
